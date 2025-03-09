@@ -103,6 +103,30 @@
             font-weight: bold;
             margin-top: 10px;
         }
+
+        input, select, button {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ffcc66;
+            border-radius: 10px;
+            background: #1a1a1a;
+            color: #ffcc66;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        button {
+            cursor: pointer;
+            background: #ff9900;
+            color: black;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ffcc66;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -131,14 +155,27 @@
             return (month === 1 && isLeapYear(year)) ? 29 : days[month];
         }
 
+        function generateCalendar() {
+            const month = parseInt(document.getElementById("month").value);
+            const year = parseInt(document.getElementById("year").value);
+            const daysInMonth = getDaysInMonth(month, year);
+            let calendarHTML = `<h3>${document.getElementById("month").options[month].text} ${year}</h3>`;
+            calendarHTML += `<table><tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>`;
+            let firstDay = new Date(year, month, 1).getDay();
+            calendarHTML += "<tr>" + "<td></td>".repeat(firstDay);
+            for (let day = 1; day <= daysInMonth; day++) {
+                calendarHTML += `<td>${day}</td>`;
+                if ((firstDay + day) % 7 === 0) calendarHTML += "</tr><tr>";
+            }
+            calendarHTML += "</tr></table>";
+            document.getElementById("calendar").innerHTML = calendarHTML;
+        }
+
         window.onload = function() {
             const monthSelect = document.getElementById("month");
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            monthNames.forEach((month, index) => {
-                let option = document.createElement("option");
-                option.value = index;
-                option.text = month;
-                monthSelect.appendChild(option);
+            ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].forEach((m, i) => {
+                let option = new Option(m, i);
+                monthSelect.add(option);
             });
         }
     </script>
