@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Calendar Tracker 2.0 with Motion</title>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px rgba(255, 165, 0, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 165, 0, 0.8); }
+            100% { box-shadow: 0 0 10px rgba(255, 165, 0, 0.5); }
+        }
+
+        body {
+            background: radial-gradient(circle, #1a1a1a, #000000);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(30, 20, 10, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(255, 165, 0, 0.7);
+            color: #ffcc66;
+            text-align: center;
+            animation: fadeIn 1.5s ease-in-out;
+            position: relative;
+        }
+
+        .calendar-frame {
+            background: rgba(50, 30, 10, 0.9);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.5);
+            animation: floating 3s infinite ease-in-out;
+        }
+
+        h2, h3 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffcc66;
+            text-shadow: 2px 2px 10px rgba(255, 165, 0, 0.7);
+        }
+
+        table {
+            background: rgba(30, 20, 10, 0.9);
+            border: 2px solid #ffcc66;
+            border-radius: 10px;
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            animation: glow 2s infinite ease-in-out;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ffcc66;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        th {
+            background: #ff9900;
+            color: black;
+            font-weight: bold;
+        }
+
+        td:hover {
+            background: #ffcc66;
+            color: black;
+            transform: scale(1.1);
+            transition: 0.3s;
+        }
+
+        .leap-year {
+            background: #00ff00 !important;
+            color: black !important;
+            font-weight: bold;
+        }
+
+        .message {
+            color: #ffcc66;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContent">
+        <h2 id='resultTitle'>Welcome to Calendar Tracker 2.0 with Motion</h2>
+        <label for="date">Date:</label>
+        <input type="number" id="date" min="1" max="31">
+        <label for="month">Month:</label>
+        <select id="month"></select>
+        <label for="year">Year:</label>
+        <input type="number" id="year" min="1">
+        <button onclick="generateCalendar()">Generate</button>
+        <div class="calendar-frame">
+            <div id="calendar"></div>
+        </div>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        function isLeapYear(year) {
+            return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+        }
+
+        function getDaysInMonth(month, year) {
+            const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            return (month === 1 && isLeapYear(year)) ? 29 : days[month];
+        }
+
+        window.onload = function() {
+            const monthSelect = document.getElementById("month");
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            monthNames.forEach((month, index) => {
+                let option = document.createElement("option");
+                option.value = index;
+                option.text = month;
+                monthSelect.appendChild(option);
+            });
+        }
+    </script>
+</body>
+</html>
